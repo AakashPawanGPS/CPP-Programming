@@ -5,7 +5,7 @@ void printn(int n){
     if(n==0){
         return;
     }
-    printn(n-1);
+    printn(n-1);                       //Not tail recursive 
     cout<<n<<endl;
 }
 
