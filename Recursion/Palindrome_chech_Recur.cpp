@@ -2,10 +2,10 @@
 using namespace std;
 
 bool isPalin(string str , int start , int end){
-    int len=str.length();
-    if(len==0 || len==1){
-        return true;
-    }
+    // int len=str.length();
+    // if(len==0 || len==1){
+    //     return true;
+    // }
     if(start>=end){
         return true;
     }
