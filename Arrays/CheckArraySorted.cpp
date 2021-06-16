@@ -11,7 +11,7 @@ bool arraysorted(int arr[] , int n){
 }
 
 int main(){
-    int arr[]={6,9,14,56,345,54};
+    int arr[]={7,20,30,105};
     int n=sizeof(arr)/sizeof(arr[0]);
     bool k=arraysorted(arr,n);
     cout<<k;
