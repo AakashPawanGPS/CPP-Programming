@@ -42,6 +42,7 @@ class Solution {
 };
 
 int main() {
+    
     int N;
     cin>>N;
     
