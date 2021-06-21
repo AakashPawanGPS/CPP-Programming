@@ -21,11 +21,11 @@ public:
     }
 
     int countZeroes(int arr[], int n) {
-        int zeros = firstZero(arr , 0 , n-1);
-        if(zeros == -1){
+        int nonzeros = firstZero(arr , 0 , n-1);
+        if(nonzeros == -1){
             return 0;
         }
-        return (n-zeros);
+        return (n-nonzeros);
     }
 };
 
