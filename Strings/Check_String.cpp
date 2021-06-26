@@ -13,6 +13,7 @@ int main(){
     int j=n-1;
 
     if(s[j]!='>'){
+        res=0;
         cout<<"Error"<<endl;
     }
 
