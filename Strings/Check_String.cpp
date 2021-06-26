@@ -12,6 +12,10 @@ int main(){
     int i=0;
     int j=n-1;
 
+    if(s[j]!='>'){
+        cout<<"Error"<<endl;
+    }
+
     while(s[j]=='>'){
         if(s[i]=='<' && s[i+1]=='/'){
             i+=2;
