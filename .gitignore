@@ -43,3 +43,8 @@ Sorting/Selection_Sort.exe
 Strings/sortReturn.exe
 Sorting/QuickSort_Lomuto.exe
 Sorting/QuickSort_Hoarse.exe
+.vscode/settings.json
+Sorting/ChocolateDistribution.exe
+Sorting/getMinDiff.exe
+SquareShift/ShortestPath.exe
+SquareShift/SpiralPattern.exe
