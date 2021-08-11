@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+//Only for Array containing distinct elements
 void CycleSort(int arr[], int n)
 {
     for (int cs = 0; cs < n - 1; cs++)
