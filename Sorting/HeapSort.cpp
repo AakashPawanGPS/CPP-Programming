@@ -39,7 +39,7 @@ void HeapSort(int arr[], int n)
 
 int main()
 {
-    int arr[] = {7, 1, 5, 2, 9, 6, 8};
+    int arr[] = {7, 1, 5, 2, 9, 6, 8, 3};
     int n = 7;
 
     HeapSort(arr, n);
