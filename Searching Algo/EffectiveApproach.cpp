@@ -3,25 +3,29 @@ using namespace std;
 
 int main()
 {
-    long long int n;
+    int n;
     cin >> n;
-    long long int arr[n];
-    for (long long int i = 0; i < n; i++)
+    vector<int> arr;
+    for (int i = 0; i < n; i++)
     {
-        cin >> arr[i];
+        int x;
+        cin >> x;
+        arr.push_back(x);
     }
-    long long int q;
+    int q;
     cin >> q;
-    long long int query[q];
-    for (long long int i = 0; i < q; i++)
+    vector<int> query;
+    for (int i = 0; i < q; i++)
     {
-        cin >> query[i];
+        int x;
+        cin >> x;
+        query.push_back(x);
     }
-    long long int v = 0, p = 0;
-    for (long long int i = 0; i < q; i++)
+    int v = 0, p = 0;
+    for (int i = 0; i < q; i++)
     {
-        long long int x = query[i];
-        for (long long int j = 0; j < n; j++)
+        int x = query[i];
+        for (int j = 0; j < n; j++)
         {
             if (x == arr[j])
             {
@@ -29,12 +33,12 @@ int main()
                 break;
             }
         }
-        for (long long int j = n - 1; j >= 0; j--)
+        for (int j = n - 1; j >= 0; j--)
         {
             if (query[i] == arr[j])
                 p += (n - j);
         }
     }
-    printf("%I64d %I64d\n", v, p);
+    cout << v << " " << p;
     return 0;
 }
