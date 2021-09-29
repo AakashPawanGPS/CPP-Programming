@@ -13,7 +13,7 @@ int main()
     int p = (arr[3] - arr[1]) / (arr[2] - arr[0]);
     int q = (arr[5] - arr[3]) / (arr[4] - arr[2]);
 
-    string res = "";
+    string res;
     if (p == q)
     {
         res = to_string(arr[2] - arr[0]) + "x-" + to_string(arr[3] - arr[1]) + "y=0";
