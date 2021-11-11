@@ -91,3 +91,5 @@ Hashing/SubarrayWithGivenSum.exe
 Strings/ReverseWords.exe
 Strings/LongestDistinctSequence.exe
 Stacks/ArrayImplementation.exe
+Strings/PrintAllPermutations.exe
+Trees/LeftView_RighView.exe
