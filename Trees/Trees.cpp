@@ -14,6 +14,83 @@ struct Node
     }
 };
 
+void iterativePreorder(Node *root)
+{
+    if (root == NULL)
+        return;
+    stack<Node *> s;
+    s.push(root);
+    while (!s.empty())
+    {
+        Node *curr = s.top();
+        s.pop();
+        cout << curr->data << " ";
+        if (curr->right)
+            s.push(curr->right);
+        if (curr->left)
+            s.push(curr->left);
+    }
+}
+
+void iterativeInorder(Node *root)
+{
+    if (root == NULL)
+        return;
+    Node *curr = root;
+    stack<Node *> s;
+    while (true)
+    {
+        if (curr)
+        {
+            s.push(curr);
+            curr = curr->left;
+        }
+        else
+        {
+            if (s.empty())
+                break;
+            curr = s.top();
+            s.pop();
+            cout << curr->data << " ";
+            curr = curr->right;
+        }
+    }
+}
+
+void iterativePostorder(Node *root)
+{
+    if (root == NULL)
+        return;
+    Node *curr = root;
+    stack<Node *> s;
+    while (curr || !s.empty())
+    {
+        if (curr)
+        {
+            s.push(curr);
+            curr = curr->left;
+        }
+        else
+        {
+            Node *temp = s.top()->right;
+            if (temp == NULL)
+            {
+                temp = s.top();
+                s.pop();
+                cout << temp->data << " ";
+                while (!s.empty() && temp == s.top()->right)
+                {
+                    temp = s.top();
+                    s.pop();
+                    cout << temp->data << " ";
+                }
+            }
+            else
+                curr = temp;
+        }
+    }
+}
+
 int height(Node *root)
 {
     if (root == NULL)
@@ -385,17 +462,69 @@ void bottomView(Node *root)
     }
 }
 
+int burnTime(Node *root, int leaf, int &dis, int &res)
+{
+    if (root == NULL)
+        return 0;
+    if (root->data == leaf)
+    {
+        dis = 0;
+        return 1;
+    }
+    int ldis = -1;
+    int rdis = -1;
+    int lh = burnTime(root->left, leaf, ldis, res);
+    int rh = burnTime(root->right, leaf, rdis, res);
+    if (ldis != -1)
+    {
+        dis = ldis + 1;
+        res = max(res, dis + rh);
+    }
+    else if (rdis != -1)
+    {
+        dis = rdis + 1;
+        res = max(res, dis + lh);
+    }
+
+    return max(lh, rh) + 1;
+}
+
+int SizeOfCompleteTree(Node *root)
+{
+    int lh = 0;
+    int rh = 0;
+    Node *curr = root;
+    while (curr != NULL)
+    {
+        lh++;
+        curr = curr->left;
+    }
+    while (curr != NULL)
+    {
+        rh++;
+        curr = curr->right;
+    }
+    if (lh == rh)
+        return pow(2, lh) - 1;
+    else
+    {
+        return 1 + SizeOfCompleteTree(root->left) + SizeOfCompleteTree(root->right);
+    }
+}
+
 int main()
 {
     Node *root = new Node(10);
-    root->left = new Node(6);
-    root->right = new Node(4);
-    root->right->left = new Node(3);
-    root->right->right = new Node(1);
-    root->right->right->left = new Node(7);
-    // // root->right->right->right->right = new Node(9);
-    root->right->left->left = new Node(2);
-    root->right->left->right = new Node(1);
+    root->left = new Node(20);
+    root->right = new Node(30);
+    root->left->left = new Node(40);
+    root->left->right = new Node(50);
+    root->right->left = new Node(60);
+
+    // iterativePreorder(root);
+    // iterativeInorder(root);
+    iterativePostorder(root);
+
     // int h = height(root);
     // cout << h << " ";
 
@@ -439,10 +568,10 @@ int main()
     //     mp[in[i]] = i;
     // }
     // Node *Tree = cTree(in, pr, 0, n, mp);
-    // levelOrderLineByLine(Tree);
+    // levelOrderLineByLine(root);
 
     // spiralTreeTraversal(root);
-    ZigZagTraversal(root);
+    // ZigZagTraversal(root);
 
     // int res = 0;
     // diameter(root, res);
@@ -457,6 +586,14 @@ int main()
     // topView(root);
     // cout << endl;
     // bottomView(root);
+    // int res = 0;
+    // int dis = 0;
+    // int leaf = 60;
+    // int bTime = burnTime(root, leaf, dis, res);
+    // cout << res << " ";
+
+    // int countNodes = SizeOfCompleteTree(root);
+    // cout << countNodes;
 
     return 0;
 }
