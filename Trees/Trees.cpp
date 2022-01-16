@@ -14,24 +14,6 @@ struct Node
     }
 };
 
-void iterativePreorder(Node *root)
-{
-    if (root == NULL)
-        return;
-    stack<Node *> s;
-    s.push(root);
-    while (!s.empty())
-    {
-        Node *curr = s.top();
-        s.pop();
-        cout << curr->data << " ";
-        if (curr->right)
-            s.push(curr->right);
-        if (curr->left)
-            s.push(curr->left);
-    }
-}
-
 void iterativeInorder(Node *root)
 {
     if (root == NULL)
@@ -53,6 +35,29 @@ void iterativeInorder(Node *root)
             s.pop();
             cout << curr->data << " ";
             curr = curr->right;
+        }
+    }
+}
+
+void iterativePreorder(Node *root)
+{
+    if (root == NULL)
+        return;
+    Node *curr = root;
+    stack<Node *> s;
+    while (curr || !s.empty())
+    {
+        while (curr)
+        {
+            cout << curr->data << " ";
+            if (curr->right)
+                s.push(curr->right);
+            curr = curr->left;
+        }
+        if (s.empty())
+        {
+            curr = s.top();
+            s.pop();
         }
     }
 }
