@@ -96,6 +96,31 @@ void iterativePostorder(Node *root)
     }
 }
 
+vector<int> postOrderIter(Node *root)
+{
+    // code here
+    vector<int> res;
+    // postOrderUtil(node,res);
+    stack<Node *> s;
+    s.push(root);
+    while (!s.empty())
+    {
+        Node *curr = s.top();
+        s.pop();
+        res.push_back(curr->data);
+        if (curr->left)
+        {
+            s.push(curr->left);
+        }
+        if (curr->right)
+        {
+            s.push(curr->right);
+        }
+    }
+    reverse(res.begin(), res.end());
+    return res;
+}
+
 int height(Node *root)
 {
     if (root == NULL)
@@ -517,6 +542,26 @@ int SizeOfCompleteTree(Node *root)
     }
 }
 
+void verticalSumHelper(Node *root, int hd, map<int, int> &mp)
+{
+    if (root == NULL)
+        return;
+    verticalSumHelper(root->left, hd - 1, mp);
+    mp[hd] += root->data;
+    verticalSumHelper(root->right, hd + 1, mp);
+}
+
+void verticalSum(Node *root)
+{
+    map<int, int> mp;
+
+    verticalSumHelper(root, 0, mp);
+    for (auto it : mp)
+    {
+        cout << it.first << " : " << it.second << "\n";
+    }
+}
+
 int main()
 {
     Node *root = new Node(10);
@@ -525,10 +570,11 @@ int main()
     root->left->left = new Node(40);
     root->left->right = new Node(50);
     root->right->left = new Node(60);
+    root->right->right = new Node(70);
 
     // iterativePreorder(root);
     // iterativeInorder(root);
-    iterativePostorder(root);
+    // iterativePostorder(root);
 
     // int h = height(root);
     // cout << h << " ";
@@ -600,6 +646,8 @@ int main()
     // int countNodes = SizeOfCompleteTree(root);
     // cout << countNodes;
 
+    // Vertical Sum
+    verticalSum(root);
 
     return 0;
 }

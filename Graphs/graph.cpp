@@ -7,10 +7,15 @@ void addEdge(vector<int> adj[], int u, int v)
     adj[v].push_back(u);
 }
 
-void bfs(vector<int> adj[], int v, int s)
+void addEdgeDir(vector<int> adjDir[], int u, int v)
 {
-    bool visited[v + 1];
-    for (int i = 0; i < v; i++)
+    adjDir[u].push_back(v);
+}
+
+void bfs(vector<int> adj[], int V, int s)
+{
+    bool visited[V + 1];
+    for (int i = 0; i < V; i++)
     {
         visited[i] = false;
     }
@@ -33,11 +38,11 @@ void bfs(vector<int> adj[], int v, int s)
     }
 }
 
-void dfsRecur(vector<int> adj[], int s, bool visited[])
+void dfsRecur(vector<int> adj[], int v, bool visited[])
 {
-    visited[s] = true;
-    cout << s << " ";
-    for (int u : adj[s])
+    visited[v] = true;
+    cout << v << " ";
+    for (int u : adj[v])
     {
         if (visited[u] == false)
         {
@@ -56,11 +61,108 @@ void dfs(vector<int> adj[], int v, int s)
     dfsRecur(adj, s, visited);
 }
 
+void shortestPathUnweighted(vector<int> adj[], int V, int s)
+{
+    int dist[V] = {INT_MAX};
+    dist[s] = 0;
+    bool visited[V] = {false};
+    visited[s] = true;
+    queue<int> q;
+    q.push(s);
+
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        for (int v : adj[u])
+        {
+            if (visited[v] == false)
+            {
+                dist[v] = dist[u] + 1;
+                visited[v] = true;
+                q.push(v);
+            }
+        }
+    }
+    for (int i = 0; i < V; i++)
+    {
+        cout << dist[i] << " ";
+    }
+}
+
+bool detectCycleUndirectedUtil(vector<int> adj[], int s, bool visited[], int parent)
+{
+    visited[s] = true;
+    for (int u : adj[s])
+    {
+        if (visited[u] == false)
+        {
+            if (detectCycleUndirectedUtil(adj, u, visited, s) == true)
+            {
+                return true;
+            }
+        }
+        else if (u != parent)
+            return true;
+    }
+    return false;
+}
+
+bool detectCycleUndirected(vector<int> adj[], int V)
+{
+    bool visited[V] = {false};
+    for (int i = 0; i < V; i++)
+    {
+        if (visited[i] == false)
+        {
+            if (detectCycleUndirectedUtil(adj, i, visited, -1) == true)
+                return true;
+        }
+    }
+    return false;
+}
+
+bool detectCycleDirectedUtil(vector<int> adjDir[], int s, bool visited[], bool recurStack[])
+{
+    visited[s] = true;
+    recurStack[s] = true;
+    for (int u : adjDir[s])
+    {
+        if ((visited[u] == false) && (detectCycleDirectedUtil(adjDir, u, visited, recurStack) == true))
+        {
+            return true;
+        }
+        else if (recurStack[u] == true)
+        {
+            return true;
+        }
+    }
+    recurStack[s] = false;
+    return false;
+}
+
+bool detectCycleDirected(vector<int> adjDir[], int V)
+{
+    bool visited[V] = {false};
+    bool recurStack[V] = {false};
+    for (int i = 0; i < V; i++)
+    {
+        if (!visited[i])
+        {
+            if (detectCycleDirectedUtil(adjDir, i, visited, recurStack))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 int main()
 {
 
-    int v = 5;
-    vector<int> adj[v];
+    int V = 5;
+    vector<int> adj[V];
 
     addEdge(adj, 0, 1);
     addEdge(adj, 0, 2);
@@ -70,9 +172,25 @@ int main()
     addEdge(adj, 2, 4);
     addEdge(adj, 3, 4);
 
-    bfs(adj, v, 0);
-    cout << endl;
-    dfs(adj, v, 0);
+    vector<int> adjDir[V];
+    addEdgeDir(adjDir, 0, 1);
+    addEdgeDir(adjDir, 0, 2);
+    addEdgeDir(adjDir, 1, 2);
+    addEdgeDir(adjDir, 2, 0);
+    addEdgeDir(adjDir, 2, 3);
+    addEdgeDir(adjDir, 3, 3);
+    addEdgeDir(adjDir, 4, 0);
+    addEdgeDir(adjDir, 1, 4);
+
+    // bfs(adj, V, 0);
+    // cout << endl;
+    // dfs(adj, V, 0);
+    // cout << endl;
+    // shortestPathUnweighted(adj, V, 1);
+
+    // cout << detectCycleundirected(adj, V);
+
+    cout << detectCycleDirected(adjDir, V);
 
     return 0;
 }
